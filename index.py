@@ -29,8 +29,7 @@ def get_closest_location(data, user_location):
     shortest_distance = -1
     
     for key in data:
-        location = key['last_location']['coords']
-        key_location = (str(location[1]), str(location[0]))
+        key_location = get_coordinates(key)
         distance = geopy.distance.geodesic(key_location, user_location).km
                
         if shortest_distance == -1:
@@ -45,7 +44,7 @@ def get_closest_location(data, user_location):
 
 def get_coordinates(key):
     location = key['last_location']['coords']
-    key_location = (str(location[1]), str(location[0]))
+    key_location = str(location[1]), str(location[0])
     return key_location
 
 
@@ -58,11 +57,10 @@ def main():
     user_location = (60.17028754851743, 24.944031808695787)
     
     data = fetch_data()
-    # closest = get_closest_location(data,user_location)
-
     
-
-    print("BAJJU")
+    closest_vehicle = get_closest_location(data,user_location)
+    coordinates = get_coordinates(closest_vehicle)[0] + "," + get_coordinates(closest_vehicle)[1]
+    print(f"Closest to user_location is: http://www.google.com/maps/place/" + coordinates)
 
 
 if __name__ == "__main__":
